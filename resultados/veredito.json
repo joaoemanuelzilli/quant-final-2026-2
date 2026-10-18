@@ -1,0 +1,17 @@
+{
+ "variante": "kalman_1e-4|1.5",
+ "veredito": "inconclusiva",
+ "t_excesso_mensal_teste": 0.893766222221424,
+ "t_excesso_mensal_treino": 1.0884984668332782,
+ "excesso_medio_mensal_teste": 0.0005072268083956649,
+ "ic95_excesso_mensal": [
+  -0.0006051049398153413,
+  0.001619558556606671
+ ],
+ "valor_p_bilateral": 0.3740949111626053,
+ "meses_teste": 82,
+ "sharpe_teste": 0.28611524747743755,
+ "sharpe_treino": 0.44440331136906924,
+ "sharpe_deflacionado_treino": 0.4976239593284737,
+ "limiar_acaso_treino": 0.4462839848999501
+}
