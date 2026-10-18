@@ -1,9 +1,10 @@
 {
  "hedge": "kalman_1e-4",
  "entrada": 1.5,
- "sharpe_treino": 0.4444033113690549,
- "sharpe_mediano_grade": 0.14707014304311225,
- "desvio_sharpe_grade": 0.23967325493371588,
- "maximo_esperado_9_sem_habilidade": 0.5255631639562902,
+ "sharpe_treino": 0.44440331136906924,
+ "sharpe_mediano_grade": 0.0785696713307952,
+ "desvio_sharpe_grade": 0.2520405051669846,
+ "n_variantes": 15,
+ "maximo_esperado_sem_habilidade": 0.6119275462055487,
  "anos_treino": 8.373015873015873
 }

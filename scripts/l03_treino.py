@@ -1,6 +1,7 @@
-"""Grade de nove variantes no treino (jul/2011 a dez/2019) e escolha.
+"""Grade de 15 variantes no treino (jul/2011 a dez/2019) e escolha.
 
-Critério pré-registrado: maior Sharpe líquido no treino. Este script não
+Critério pré-registrado: maior Sharpe líquido no treino entre as 15 (as 9
+da ficha original e as 6 da emenda). Este script não
 lê nenhum preço posterior a 31/12/2019: os semestres de 2020 em diante nem
 são formados.
 """
@@ -51,12 +52,13 @@ escolha = {"hedge": melhor["hedge"], "entrada": float(melhor["entrada"]),
            "sharpe_treino": float(melhor["Sharpe"]),
            "sharpe_mediano_grade": float(grade["Sharpe"].median()),
            "desvio_sharpe_grade": float(desvio),
-           "maximo_esperado_9_sem_habilidade": float(esperado),
+           "n_variantes": len(grade),
+           "maximo_esperado_sem_habilidade": float(esperado),
            "anos_treino": anos}
 (C.RESULTADOS / "escolha.json").write_text(json.dumps(escolha, indent=1))
 print("\nSharpe líquido no treino")
 print(grade.pivot(index="entrada", columns="hedge", values="Sharpe")
       [C.GRADE_HEDGE].round(2).to_string())
 print(f"\nescolha: hedge = {escolha['hedge']}, z de entrada = {escolha['entrada']}")
-print(f"melhor de 9 tentativas sem habilidade, com {anos:.1f} anos: "
+print(f"melhor de {len(grade)} tentativas sem habilidade, com {anos:.1f} anos: "
       f"{esperado:.2f} em média")
