@@ -165,34 +165,39 @@
 },
 "commits": [
 {
-"hash": "0a9f7da",
+"hash": "d7efd5e",
 "data": "18/10/2026 11:41",
 "titulo": "Pré-registro: tese, regras e período de teste fixados"
 },
 {
-"hash": "eed2218",
+"hash": "d1afae7",
 "data": "18/10/2026 11:49",
 "titulo": "Correções de dados e filtro de preço nominal, antes de qualquer backtest"
 },
 {
-"hash": "640afac",
+"hash": "43a1ea8",
 "data": "18/10/2026 11:52",
 "titulo": "Emenda à ficha: z-score calibrado, antes de abrir o teste"
 },
 {
-"hash": "03dba1f",
+"hash": "ebfafb5",
 "data": "18/10/2026 11:53",
 "titulo": "Treino: grade de 15 variantes e escolha pela regra da ficha"
 },
 {
-"hash": "f985e93",
+"hash": "aea7677",
 "data": "18/10/2026 11:54",
 "titulo": "Teste: rodada única, veredito inconclusivo"
 },
 {
-"hash": "d3d6ae5",
+"hash": "45f178a",
 "data": "18/10/2026 11:58",
 "titulo": "Robustez, risco e séries temporais (diagnóstico pós-teste)"
+},
+{
+"hash": "9019be8",
+"data": "18/10/2026 12:22",
+"titulo": "Apresentação final, README e execução de ponta a ponta"
 }
 ],
 "metricas": {

@@ -62,11 +62,11 @@ backtest. Cada decisão está em um commit datado:
 
 | Commit | O que fixou |
 |---|---|
-| `0a9f7da` | ficha: tese, universo, períodos, 9 variantes, custos, regra de decisão |
-| `eed2218` | correções de dados (cisões não ajustadas pelo Yahoo) e filtro de preço da época, sem nenhum retorno calculado |
-| `640afac` | emenda depois do treino da grade original, com o teste ainda fechado: 6 variantes com z-score calibrado; N = 15 |
-| `03dba1f` | escolha no treino: Kalman δ = 10⁻⁴, z = 1,5 (Sharpe 0,444 contra 0,440 da segunda) |
-| `f985e93` | rodada única no teste, gravada como saiu |
+| `d7efd5e` | ficha: tese, universo, períodos, 9 variantes, custos, regra de decisão |
+| `d1afae7` | correções de dados (cisões não ajustadas pelo Yahoo) e filtro de preço da época, sem nenhum retorno calculado |
+| `43a1ea8` | emenda depois do treino da grade original, com o teste ainda fechado: 6 variantes com z-score calibrado; N = 15 |
+| `ebfafb5` | escolha no treino: Kalman δ = 10⁻⁴, z = 1,5 (Sharpe 0,444 contra 0,440 da segunda) |
+| `aea7677` | rodada única no teste, gravada como saiu |
 
 ![Pré-registro](docs/slide_07.png)
 

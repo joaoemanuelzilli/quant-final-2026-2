@@ -600,7 +600,7 @@ async function main() {
     })]);
   });
   tabela(s, "Grade do treino", gl, { x: MX, y: 1.7, w: 7.4, colW: [1.4, 1.2, 1.2, 1.2, 1.2, 1.2], fontSize: 14, rowH: 0.62 });
-  s.addText("* variantes da emenda (commit 640afac), registradas depois do treino da grade original e antes do teste. Contorno: escolhida.",
+  s.addText(`* variantes da emenda (commit ${D.commits[2].hash}), registradas depois do treino da grade original e antes do teste. Contorno: escolhida.`,
     { x: MX, y: 4.35, w: 7.4, h: 0.5, fontFace: FONTE, fontSize: 12, color: CINZA, margin: 0, isTextBox: true, objectName: "Nota da grade" });
   s.addText([{ text: "Escolhida: ", options: { bold: true, color: ROXO } },
     { text: `${nomeHedge[ESC.hedge]}, z = ${num(ESC.entrada, 1)}. Sharpe ${num(ESC.sharpe_treino, 3)}, contra ${num(segunda.sharpe_treino, 3)} da segunda (${nomeHedge[segunda.hedge]}, z = ${num(segunda.entrada, 1)}). A diferença é ${pct(margem / MTr["Erro-padrão do Sharpe"], 0)} do erro-padrão do Sharpe (${num(MTr["Erro-padrão do Sharpe"], 2)}): a regra escolheu por ruído, e seguimos a regra.` }],
