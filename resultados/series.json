@@ -1,0 +1,77 @@
+{
+ "exemplo": {
+  "par": "GGBR4/GOAU4",
+  "semestre": "2015S1",
+  "formacao": [
+   "2013-12-23",
+   "2014-12-30"
+  ],
+  "beta": 0.9134984265814731,
+  "alfa": 0.1489247850666587,
+  "p_engle_granger": 0.012126799169553185,
+  "meia_vida": 2.700372352090073,
+  "desvio_spread": 0.009113399560853686,
+  "testes": {
+   "ln GGBR4": {
+    "adf": -1.2398853428968861,
+    "adf_p": 0.6562071381591789,
+    "adf_crit5": -2.8731248767783426,
+    "kpss": 2.049076259637172,
+    "kpss_p": 0.01,
+    "kpss_crit5": 0.463
+   },
+   "ln GOAU4": {
+    "adf": -1.0915722812973874,
+    "adf_p": 0.7184210532748649,
+    "adf_crit5": -2.8731248767783426,
+    "kpss": 2.0186158184538656,
+    "kpss_p": 0.01,
+    "kpss_crit5": 0.463
+   },
+   "Spread": {
+    "adf": -3.826517319408063,
+    "adf_p": 0.002647367012134547,
+    "adf_crit5": -2.8732185133016057,
+    "kpss": 0.23437004909206222,
+    "kpss_p": 0.1,
+    "kpss_crit5": 0.463
+   },
+   "Retorno de GGBR4": {
+    "adf": -15.669027503754,
+    "adf_p": 1.5208396951500973e-28,
+    "adf_crit5": -2.8731715065600003,
+    "kpss": 0.056020672428875325,
+    "kpss_p": 0.1,
+    "kpss_crit5": 0.463
+   }
+  }
+ },
+ "persistencia": {
+  "teste": {
+   "pares": 126,
+   "estacionario_5pct": 0.06349206349206349,
+   "deriva_mediana_z": 1.4274894097842172,
+   "meia_vida_formacao_mediana": 6.813056818352197
+  },
+  "treino": {
+   "pares": 90,
+   "estacionario_5pct": 0.06666666666666667,
+   "deriva_mediana_z": 1.487003953352346,
+   "meia_vida_formacao_mediana": 6.174656543182998
+  }
+ },
+ "multiplos_testes": {
+  "teste": {
+   "candidatos": 2287,
+   "p_menor_5pct": 270,
+   "falsos_esperados": 114.35000000000001,
+   "escolhidos": 126
+  },
+  "treino": {
+   "candidatos": 1079,
+   "p_menor_5pct": 147,
+   "falsos_esperados": 53.95,
+   "escolhidos": 90
+  }
+ }
+}

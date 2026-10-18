@@ -1,0 +1,28 @@
+{
+ "kupiec": {
+  "violacoes": 35,
+  "pregoes": 1692,
+  "esperadas": 16.92,
+  "lr": 14.915472171244119,
+  "p_valor": 0.00011243704509689145
+ },
+ "garch_ibov": {
+  "omega": 0.031548894933884596,
+  "alpha": 0.057635990426658554,
+  "beta": 0.9260565985119932,
+  "nu": 8.312601343250577,
+  "persistencia": 0.9836925889386517,
+  "meia_vida_pregoes": 42.15751799000371,
+  "vol_longo_prazo_aa": 0.22080039041629873,
+  "vol_media_com_posicao": 0.29842912585339365,
+  "vol_media_sem_posicao": 0.21179750446179454
+ },
+ "pior_pregao_teste": {
+  "data": "2020-03-16",
+  "retorno": -0.019487476026067
+ },
+ "pior_mes_teste": {
+  "mes": "2020-03",
+  "retorno": -0.023799104533175686
+ }
+}

@@ -10,9 +10,11 @@ from statsmodels.tsa.stattools import adfuller, coint, kpss
 def adf_kpss(serie):
     """ADF (H0: raiz unitária) e KPSS (H0: estacionária), com constante."""
     x = pd.Series(serie).dropna().to_numpy()
-    adf = adfuller(x, regression="c", autolag="AIC")
     with warnings.catch_warnings():
+        # avisos de versão do statsmodels e de interpolação da tabela do KPSS
+        warnings.simplefilter("ignore", FutureWarning)
         warnings.simplefilter("ignore", InterpolationWarning)
+        adf = adfuller(x, regression="c", autolag="AIC")
         kp = kpss(x, regression="c", nlags="auto")
     return {"adf": adf[0], "adf_p": adf[1], "adf_crit5": adf[4]["5%"],
             "kpss": kp[0], "kpss_p": kp[1], "kpss_crit5": kp[3]["5%"]}
