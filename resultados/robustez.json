@@ -1,6 +1,8 @@
 {
  "grade_correlacao_postos": 0.4357142857142856,
  "t_teste_sem_2020": 1.3113643348666484,
+ "t_teste_2020_a_2025": -0.16280318711697592,
+ "excesso_teste_2026": 0.04790956574230587,
  "sorteios_percentil_estrategia": 0.98,
  "sorteios_sharpe_mediano": -0.15116458637588773,
  "sorteios_p90": 0.13305570260033486,

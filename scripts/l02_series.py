@@ -2,6 +2,8 @@
 
 1. Par-exemplo do treino (GGBR4 e GOAU4, holding e controlada, formação do
    1º semestre de 2015): ADF e KPSS dos log-preços e do spread, meia-vida.
+   Usa só a formação; o z-score do exemplo com a variante escolhida fica em
+   scripts/l07_slides.py, que roda depois da escolha.
 2. Quantos pares cointegrados na formação continuam com spread
    estacionário no semestre seguinte (com o beta da formação).
 3. Múltiplos testes: aprovados por semestre contra os falsos positivos
@@ -17,7 +19,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from pares import config as C
 from pares.dados import carregar
-from pares.motor import selecao_padrao, zscore_par
+from pares.motor import selecao_padrao
 from pares.series import adf_kpss, meia_vida, mqo
 from pares.selecao import tabela_semestres
 
@@ -44,12 +46,6 @@ print(f"Engle-Granger p = {par.p:.4f}, beta = {par.beta:.3f}, "
       f"meia-vida = {par.meia_vida:.1f} pregões")
 serie = pd.DataFrame({"ln_y": logp[par.y], "ln_x": logp[par.x], "spread": spread})
 serie.to_csv(C.RESULTADOS / "exemplo_formacao.csv")
-escolha = json.loads((C.RESULTADOS / "escolha.json").read_text())
-z, beta = zscore_par(d, par, primeiro, ultimo, escolha["hedge"], ini)
-ops = pd.read_csv(C.RESULTADOS / "treino_operacoes.csv", parse_dates=["entrada", "saida"])
-ops = ops[(ops.semestre == rotulo) & (ops.y == par.y) & (ops.x == par.x)]
-pd.DataFrame({"z": z, "beta": beta}).to_csv(C.RESULTADOS / "exemplo_negociacao.csv")
-ops.to_csv(C.RESULTADOS / "exemplo_operacoes.csv", index=False)
 
 # 2. a cointegração persiste fora da amostra?
 linhas = []
