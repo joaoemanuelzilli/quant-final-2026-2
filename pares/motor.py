@@ -9,21 +9,29 @@ Convenções (Caps. 7, 8, 11 e 12 do livro do Núcleo):
 - preços ajustados por proventos, de modo que a ponta vendida paga os
   dividendos ao doador.
 """
+import json
+
 import numpy as np
 import pandas as pd
 
 from . import config as C
-from .kalman import filtrar
+from .kalman import estimar, filtrar
 from .selecao import aprovados, escolher
 
 
 def zscore_par(d, par, primeiro, ultimo, hedge, inicio_formacao):
     """z-score e hedge ratio de um par nos pregões do semestre.
 
-    Para o MQO, beta, alfa e desvio vêm da formação e ficam fixos. Para o
-    Kalman, o filtro roda desde o início da formação, partindo dos valores
-    do MQO, e o z-score de t é o erro de previsão de t dividido pelo desvio
-    previsto, ambos calculados com coeficientes estimados até t-1.
+    Formas de hedge (todas usam só dados até cada pregão):
+    - "mqo": beta, alfa e desvio da formação, fixos no semestre;
+    - "mqo_movel": beta e alfa da formação; z com média e desvio móveis
+      de JANELA_Z pregões do próprio spread;
+    - "kalman_<delta>": filtro de Kalman com delta fixo e Ve igual à
+      variância do resíduo da formação;
+    - "kalman_mv": delta e Ve estimados por máxima verossimilhança na
+      formação (pregões anteriores ao semestre).
+    No Kalman, o filtro roda desde o início da formação, partindo do MQO, e
+    o z-score de t é o erro de previsão de t sobre o desvio previsto.
     """
     px = d["px"]
     dias = px.loc[primeiro:ultimo].index
@@ -31,14 +39,39 @@ def zscore_par(d, par, primeiro, ultimo, hedge, inicio_formacao):
         ly, lx = np.log(px.loc[dias, par.y]), np.log(px.loc[dias, par.x])
         z = (ly - par.beta * lx - par.alfa) / par.desvio
         return z, pd.Series(par.beta, dias)
-    delta = float(hedge.split("_")[1])
     trecho = np.log(px.loc[inicio_formacao:ultimo, [par.y, par.x]]).dropna()
+    if hedge == "mqo_movel":
+        s = trecho[par.y] - par.beta * trecho[par.x] - par.alfa
+        z = (s - s.rolling(C.JANELA_Z).mean()) / s.rolling(C.JANELA_Z).std()
+        return z.reindex(dias), pd.Series(par.beta, dias)
+    if hedge == "kalman_mv":
+        form = trecho[trecho.index < primeiro]
+        delta, ve = parametros_mv(form, par)
+    else:
+        delta, ve = float(hedge.split("_")[1]), par.desvio ** 2
     beta_prev, _, erro, desvio = filtrar(trecho[par.y], trecho[par.x], delta,
-                                         par.desvio ** 2, par.beta, par.alfa)
+                                         ve, par.beta, par.alfa)
     z = pd.Series(erro / desvio, trecho.index).reindex(dias)
     # o beta disponível no fechamento de t é a previsão feita para t+1
     beta = pd.Series(np.r_[beta_prev[1:], beta_prev[-1]], trecho.index)
     return z, beta.reindex(dias)
+
+
+_CACHE_MV = {}
+
+
+def parametros_mv(form, par):
+    """delta e Ve do par estimados na formação, com cache em disco."""
+    arq = C.CACHE / "kalman_mv.json"
+    if not _CACHE_MV and arq.exists():
+        _CACHE_MV.update(json.loads(arq.read_text()))
+    chave = f"{par.y}|{par.x}|{form.index[0].date()}|{form.index[-1].date()}"
+    if chave not in _CACHE_MV:
+        _CACHE_MV[chave] = estimar(form[par.y].to_numpy(), form[par.x].to_numpy(),
+                                   par.beta, par.alfa, par.desvio ** 2)
+        C.CACHE.mkdir(parents=True, exist_ok=True)
+        arq.write_text(json.dumps(_CACHE_MV))
+    return tuple(_CACHE_MV[chave])
 
 
 def operacoes_par(z, beta, entrada, atraso, saida=C.SAIDA_Z,

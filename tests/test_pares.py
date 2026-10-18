@@ -8,7 +8,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from pares import config as C                                      # noqa: E402
-from pares.kalman import filtrar                                   # noqa: E402
+from pares.kalman import estimar, filtrar                          # noqa: E402
 from pares.metricas import drawdown, metricas, sharpe_deflacionado  # noqa: E402
 from pares.motor import operacoes_par, simular, zscore_par         # noqa: E402
 from pares.series import engle_granger, meia_vida                  # noqa: E402
@@ -58,6 +58,16 @@ def test_kalman_recupera_beta_constante():
     assert beta[-1] == pytest.approx(0.8, abs=0.1)
     z = erro[500:] / desvio[500:]
     assert abs(z.mean()) < 0.2 and 0.5 < z.std() < 2.0
+
+
+def test_kalman_por_maxima_verossimilhanca_padroniza_o_z():
+    ly, lx = par_cointegrado(n=600, semente=4)
+    delta, ve = estimar(ly[:252], lx[:252], 0.8, 0.5, 0.02 ** 2)
+    assert 1e-9 <= delta <= 1e-2 and ve > 0
+    _, _, erro, desvio = filtrar(ly, lx, delta, ve, 0.8, 0.5)
+    z = erro[20:] / desvio[20:]
+    assert 0.8 < z[:232].std() < 1.2       # na própria formação
+    assert 0.6 < z[232:].std() < 1.6       # fora dela, sem reestimar
 
 
 def test_maquina_de_estados():
@@ -128,7 +138,7 @@ def test_futuro_nao_muda_o_passado():
     corte = DIAS[200]
     cortado = {k: v.loc[:corte] for k, v in completo.items()}
     par = pd.Series({"y": "A", "x": "B", "beta": 0.8, "alfa": 0.5, "desvio": 0.02})
-    for hedge in ["mqo", "kalman_1e-4"]:
+    for hedge in ["mqo", "mqo_movel", "kalman_1e-4", "kalman_mv"]:
         z1, b1 = zscore_par(completo, par, DIAS[150], DIAS[299], hedge, DIAS[0])
         z2, b2 = zscore_par(cortado, par, DIAS[150], corte, hedge, DIAS[0])
         pd.testing.assert_series_equal(z1.loc[:corte], z2)
@@ -153,7 +163,7 @@ def test_sharpe_deflacionado_cai_com_mais_variantes():
 
 def test_parametros_do_pre_registro():
     assert C.ATRASO == 1 and C.CUSTO == 0.001 and C.ALUGUEL == 0.02
-    assert len(C.GRADE_ENTRADA) * len(C.GRADE_HEDGE) == 9
+    assert len(C.GRADE_ENTRADA) * len(C.GRADE_HEDGE) == 15
     assert C.TESTE[0] == "2020-01-01" and C.TREINO[1] == "2019-12-31"
 
 

@@ -176,6 +176,47 @@ decisão não mudaram.
    desdobramentos registrados pelo Yahoo (`dados/bruto/yahoo_desdobramentos.csv`),
    que é o que a ficha pedia ("fechamento sem ajuste").
 
+## Emenda: depois do treino da grade original, antes do teste
+
+Registrada em commit antes de qualquer contato com o período de teste
+(nenhum semestre de 2020 em diante foi formado ou simulado).
+
+**O que o treino da grade original mostrou** (`scripts/l03_treino.py`,
+resultados em `resultados/treino_grade_original.csv`). Sharpe líquido de
+jul/2011 a dez/2019:
+
+| z de entrada | MQO fixo | Kalman δ = 10⁻⁵ | Kalman δ = 10⁻⁴ |
+|---|---|---|---|
+| 1,5 | −0,17 | 0,36 | 0,44 |
+| 2,0 | −0,17 | 0,08 | 0,15 |
+| 2,5 | 0,01 | 0,33 | 0,41 |
+
+A regra da ficha escolheria Kalman δ = 10⁻⁴ com z = 1,5, que fez **24
+operações em 8,4 anos** e ficou posicionada em 4% dos pregões, com
+exposição bruta média de 1% do patrimônio. O diagnóstico, feito só no
+treino, é de calibração do z-score, e não de código:
+
+- no MQO fixo, o spread se afasta do nível da formação e o desvio-padrão
+  do z nos semestres de negociação é 3,4 (deveria ser perto de 1);
+- no Kalman com Ve igual à variância do resíduo da formação, o desvio
+  previsto superestima o erro de previsão, e o desvio do z é 0,66
+  (δ = 10⁻⁵) e 0,38 (δ = 10⁻⁴). Um limiar de 1,5 equivale a 4 desvios.
+
+**O que muda.** Seis variantes novas, com o z-score calibrado, sem tocar
+no resto da regra (formação, entrada, saída, stop, tamanho, custos):
+
+- MQO com z móvel: β e α da formação; z com média e desvio móveis de 63
+  pregões do próprio spread (só dados até o dia);
+- Kalman por máxima verossimilhança: δ e Ve estimados, para cada par, nos
+  252 pregões da formação (`pares/kalman.py`, função `estimar`).
+
+Cada uma com z de entrada ∈ {1,5; 2,0; 2,5}.
+
+**Escolha e contagem de tentativas.** A variante do teste é a de maior
+Sharpe líquido no treino entre as **15** (as 9 originais e as 6 novas).
+O Sharpe deflacionado e o máximo esperado do acaso usam N = 15. A grade
+original continua reportada nas tabelas.
+
 ## Referências
 
 - Caldeira, J. e Moura, G. (2013). Selection of a portfolio of pairs based

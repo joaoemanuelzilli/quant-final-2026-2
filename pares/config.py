@@ -61,6 +61,7 @@ MAX_PARES_POR_ACAO = 2
 MAX_PARES_POR_SETOR = 3
 
 # Negociação
+JANELA_Z = 63                  # pregões do z móvel (variante mqo_movel)
 SAIDA_Z = 0.0                  # fecha quando o z-score cruza a média
 STOP_EXTRA = 2.0               # stop em |z| >= entrada + 2
 ATRASO = 1                     # sinal no fechamento t, ordem no fechamento t+1
@@ -68,8 +69,11 @@ CUSTO = 0.001                  # 0,10% do valor negociado, por ponta
 ALUGUEL = 0.02                 # 2% a.a. sobre o valor da ponta vendida
 BRUTO_POR_PAR = 2 / N_PARES    # exposição bruta de um par (comprado + vendido)
 
-# Grade pré-registrada: 3 x 3 = 9 variantes, escolhidas pelo maior Sharpe
-# líquido no treino.
+# Grade: 9 variantes da ficha original e 6 da emenda (registrada depois do
+# treino da grade original e antes do teste). A escolha é o maior Sharpe
+# líquido no treino entre as 15; o Sharpe deflacionado usa N = 15.
 GRADE_ENTRADA = [1.5, 2.0, 2.5]
-GRADE_HEDGE = ["mqo", "kalman_1e-5", "kalman_1e-4"]
+GRADE_HEDGE_ORIGINAL = ["mqo", "kalman_1e-5", "kalman_1e-4"]
+GRADE_HEDGE_EMENDA = ["mqo_movel", "kalman_mv"]
+GRADE_HEDGE = GRADE_HEDGE_ORIGINAL + GRADE_HEDGE_EMENDA
 SEMENTE = 42
