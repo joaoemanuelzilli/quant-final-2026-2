@@ -49,6 +49,23 @@ def baixar_yahoo():
         print(arq, tab.shape, tab.index[0].date(), tab.index[-1].date())
 
 
+def baixar_desdobramentos():
+    """Desdobramentos e grupamentos (fator do Yahoo: 8.0 = 1 ação vira 8).
+
+    O fechamento do Yahoo vem ajustado por eles; para saber o preço que de
+    fato aparecia na tela em cada data, é preciso desfazer os eventos
+    posteriores a ela.
+    """
+    linhas = []
+    for a in ACOES:
+        s = yf.Ticker(f"{a}.SA").splits
+        for data, fator in s.items():
+            linhas.append({"acao": a, "data": data.date(), "fator": fator})
+    tab = pd.DataFrame(linhas).sort_values(["acao", "data"])
+    tab.to_csv(BRUTO / "yahoo_desdobramentos.csv", index=False)
+    print("yahoo_desdobramentos.csv", len(tab), "eventos")
+
+
 def cdi_sgs():
     """Série 12 do SGS em blocos de até dez anos, em fração ao dia."""
     partes = []
@@ -107,5 +124,6 @@ def copiar_b3_livro():
 if __name__ == "__main__":
     BRUTO.mkdir(parents=True, exist_ok=True)
     baixar_yahoo()
+    baixar_desdobramentos()
     baixar_cdi()
     copiar_b3_livro()

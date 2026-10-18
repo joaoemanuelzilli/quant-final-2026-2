@@ -154,6 +154,28 @@ contribuição por setor; grade das nove variantes no treino e no teste;
 estresse nos episódios do Cap. 6 (Covid-19, Joesley Day, fev.–jun./2018,
 alta da Selic 2021–2022).
 
+## Mudanças depois da ficha (antes de qualquer backtest)
+
+Registradas no commit seguinte ao da ficha, ainda sem nenhum retorno de
+estratégia calculado. A regra, a grade, os períodos e o critério de
+decisão não mudaram.
+
+1. **Correção de eventos que o Yahoo não ajusta** (`dados/correcoes.csv`,
+   uma linha por evento, com a fonte). A conferência contra os fechamentos
+   oficiais da B3 (`scripts/l01_dados.py`) mostrou a cisão da XPart em
+   ITUB4 (04/10/2021) sem ajuste, como o Cap. 2 do livro já documenta; a
+   busca sistemática por saltos acima de 30% descolados do setor, em ações
+   que passariam no filtro de liquidez, achou mais quatro eventos
+   artificiais (ITUB3 na mesma cisão, PCAR3 nas cisões do Assaí e do Éxito,
+   UGPA3 em 28/06/2021). Os eventos reais da mesma busca (privatização da
+   Eletrobras em 2017, fraude da Americanas em 2023) ficaram como estão.
+2. **Filtro de preço com o preço da época.** O "fechamento" do Yahoo vem
+   ajustado por desdobramentos e grupamentos posteriores, o que faria o
+   filtro de R$ 5 usar informação do futuro (AMER3 aparecia a R$ 1.200 em
+   2023). O filtro passou a usar o preço nominal, reconstruído com os
+   desdobramentos registrados pelo Yahoo (`dados/bruto/yahoo_desdobramentos.csv`),
+   que é o que a ficha pedia ("fechamento sem ajuste").
+
 ## Referências
 
 - Caldeira, J. e Moura, G. (2013). Selection of a portfolio of pairs based

@@ -19,7 +19,7 @@ def elegiveis(d, janela):
     px = d["px"].loc[janela, C.ACOES]
     cobertura = px.notna().mean()
     volume = d["volfin"].loc[janela, C.ACOES].median()
-    preco = d["fech"].loc[janela[-1], C.ACOES]
+    preco = d["nominal"].loc[janela[-1], C.ACOES]
     ok = ((cobertura >= C.COBERTURA_MINIMA) & (volume >= C.VOLUME_MINIMO)
           & (preco >= C.PRECO_MINIMO))
     return list(ok[ok].index)

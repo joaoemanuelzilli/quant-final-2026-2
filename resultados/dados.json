@@ -1,0 +1,22 @@
+{
+ "pregoes": 4172,
+ "inicio": "2010-01-04",
+ "fim": "2026-10-16",
+ "acoes": 73,
+ "setores": 15,
+ "extremos_25pct": 88,
+ "conferencia_correlacao_min": 0.9708834141016451,
+ "conferencia_dif_media_pb": 5.57419932904245,
+ "conferencia_acoes": [
+  "BBAS3",
+  "BOVA11",
+  "ITUB4",
+  "MGLU3",
+  "PETR4",
+  "VALE3"
+ ],
+ "cdi_fontes": {
+  "SGS 12 (cópia do livro)": 4019,
+  "Ipeadata Selic over - 0,10 p.p.": 198
+ }
+}
